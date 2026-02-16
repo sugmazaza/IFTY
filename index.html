@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>I'm Fine Thank You</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body { font-family: Arial; text-align:center; padding:20px; background:#111; color:white; }
+button { width:90%; padding:20px; margin:10px; font-size:18px; border:none; border-radius:8px; }
+.emergency { background:red; color:white; }
+.unsafe { background:orange; }
+.safe { background:green; }
+input, textarea { width:90%; padding:10px; margin:5px; }
+.note { font-size:90%; color:#ccc; margin-top:10px; }
+</style>
+</head>
+
+<body>
+
+<h1>I'm Fine Thank You</h1>
+
+<button class="emergency" onclick="sendEmergency()">🚨 Emergency</button>
+<button class="unsafe" onclick="sendUnsafe()">⚠ Unsafe Area</button>
+<button class="safe" onclick="sendSafe()">✅ I'm Safe</button>
+
+<p class="note">This is a static, privacy-focused check-in UI. Data is POSTed to the configured API endpoint.</p>
+
+<script>
+// Keep the original API but replace if you self-host the server
+const API = "https://script.google.com/macros/s/AKfycbwKqqAO-otahhUooJIYCtnjnZr8jEL5yxMdgPpu1aaIH32WuUYXgUX3SgMn1nqU09x1uw/exec";
+
+async function postData(type, row){
+  try{
+    await fetch(API, {
+      method: "POST",
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({type:type,row:row})
+    });
+  } catch(e) {
+    console.error('Post failed', e);
+    alert('Failed to send — check console for details.');
+  }
+}
+
+function sendEmergency(){
+  let alias = prompt("Alias:");
+  if(!alias) return;
+  let location = prompt("Location link:");
+  let msg = prompt("What’s happening?");
+  postData("Emergencies",[alias,location,msg,new Date().toISOString()]);
+  alert("Emergency sent!");
+}
+
+function sendUnsafe(){
+  let loc = prompt("Location:");
+  if(!loc) return;
+  let type = prompt("Danger type:");
+  let desc = prompt("Description:");
+  postData("Unsafe",[loc,type,desc,new Date().toISOString()]);
+  alert("Report sent!");
+}
+
+function sendSafe(){
+  let user = prompt("Alias:");
+  if(!user) return;
+  postData("Emergencies",[user,"SAFE CHECK-IN","",new Date().toISOString()]);
+  alert("Safe check recorded!");
+}
+
+</script>
+
+</body>
+</html>
