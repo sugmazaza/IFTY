@@ -26,8 +26,11 @@ input, textarea { width:90%; padding:10px; margin:5px; }
 <p class="note">This is a static, privacy-focused check-in UI. Data is POSTed to the configured API endpoint.</p>
 
 <script>
-// Keep the original API but replace if you self-host the server
-const API = "https://script.google.com/macros/s/AKfycbwKqqAO-otahhUooJIYCtnjnZr8jEL5yxMdgPpu1aaIH32WuUYXgUX3SgMn1nqU09x1uw/exec";
+// Use a local receiver when running on localhost, otherwise fall back to the
+// original Google Script endpoint.
+const API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? 'http://localhost:3000/report'
+  : 'https://script.google.com/macros/s/AKfycbwKqqAO-otahhUooJIYCtnjnZr8jEL5yxMdgPpu1aaIH32WuUYXgUX3SgMn1nqU09x1uw/exec';
 
 async function postData(type, row){
   try{
