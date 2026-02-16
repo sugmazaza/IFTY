@@ -1,0 +1,27 @@
+{
+  "name": "ifty-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000"
+  },
+  "dependencies": {
+    "next": "13.4.7",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@supabase/supabase-js": "2.34.0"
+  }
+}
+{
+  "name": "im-fine-thank-you",
+  "version": "1.0.0",
+  "description": "Static safety check-in app",
+  "scripts": {
+    "start": "npx http-server ./app -p 8080",
+    "docker:build": "docker build -t im-fine-thank-you ."
+  },
+  "author": "",
+  "license": "MIT"
+}
